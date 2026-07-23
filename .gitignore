@@ -3,3 +3,9 @@ node_modules
 generated
 dist
 /generated/prisma
+
+/src/generated/prisma
+
+.agents
+.claude
+.windsurf
