@@ -45,8 +45,8 @@
 		/* Path aliases (optional, set up if you want clean imports) */
 		"paths": {
 			"@/*": ["./src/*"]
-		},
-		"include": ["src/**/*"],
-		"exclude": ["node_modules", "dist"]
-	}
+		}
+	},
+	"include": ["src/**/*"],
+	"exclude": ["node_modules", "dist"]
 }
