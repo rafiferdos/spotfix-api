@@ -35,7 +35,7 @@
 
 		// Recommended Options
 		"strict": true,
-		"jsx": "react-jsx",
+		// "jsx": "react-jsx",
 		"verbatimModuleSyntax": true,
 		"isolatedModules": true,
 		"noUncheckedSideEffectImports": true,
@@ -45,6 +45,8 @@
 		/* Path aliases (optional, set up if you want clean imports) */
 		"paths": {
 			"@/*": ["./src/*"]
-		}
+		},
+		"include": ["src/**/*"],
+		"exclude": ["node_modules", "dist"]
 	}
 }
