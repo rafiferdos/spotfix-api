@@ -12,5 +12,8 @@ model User {
 
   services Service[]
 
+  customer Booking[] @relation("CustomerBookings")
+  provider Booking[] @relation("ProviderBookings")
+
   @@map("users")
 }
