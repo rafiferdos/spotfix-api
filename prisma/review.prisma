@@ -8,5 +8,5 @@ model Review {
 
   booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
 
-  @@index([bookingId])
+  @@map("reviews")
 }
