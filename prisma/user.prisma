@@ -11,4 +11,6 @@ model User {
   updatedAt    DateTime @updatedAt
 
   services Service[]
+
+  @@map("users")
 }
