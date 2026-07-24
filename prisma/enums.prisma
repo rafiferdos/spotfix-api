@@ -1,0 +1,12 @@
+enum UserRole {
+  ADMIN
+  CUSTOMER
+  PROVIDER
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
