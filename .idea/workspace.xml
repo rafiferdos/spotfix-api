@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="fdb04344-d699-48d3-add7-982392b5395e" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.prettierrc.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/auth/auth.route.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/user/user.route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.npmrc" beforeDir="false" afterPath="$PROJECT_DIR$/.npmrc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-lock.yaml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_/home/rafiferdos/dev/phero/assignments/assignment4" value="3H03xI0R6jgWKhrJzwQvjcrXllY" />
+    </persistenceIdMap>
+  </component>
+  <component name="DBNavigator.Project.Workspace.Settings">
+    <assistant-settings>
+      <credential-settings>
+        <credentials />
+      </credential-settings>
+      <profile-settings>
+        <profiles />
+      </profile-settings>
+      <mcp-server-settings>
+        <workspace-integration value="false" />
+        <mcp-servers />
+        <mcp-tool-approvals />
+      </mcp-server-settings>
+    </assistant-settings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.0" />
+      <entry key="MS500" value="1.0000000000040647" />
+      <entry key="S2" value="1.0014198950364457" />
+      <entry key="S5" value="1.0725944310556923" />
+      <entry key="S10" value="1.2699839491135583" />
+      <entry key="S30" value="1.8060811836194386" />
+      <entry key="S60" value="2.53028323032858" />
+      <entry key="M2" value="4.346989006873304" />
+      <entry key="M5" value="13.36806770285178" />
+      <entry key="M10" value="27.170199508080774" />
+      <entry key="M15" value="36.315145559108664" />
+      <entry key="M30" value="50.002128579840566" />
+      <entry key="H1" value="59.35182388710345" />
+      <entry key="H2" value="64.85189287913553" />
+      <entry key="H4" value="67.83979595606195" />
+      <entry key="D1" value="70.46086836639292" />
+      <entry key="W1" value="70.9226704867193" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="0.0" />
+      <entry key="S5" value="0.0" />
+      <entry key="S10" value="0.0" />
+      <entry key="S30" value="0.0" />
+      <entry key="S60" value="0.0" />
+      <entry key="M2" value="0.0" />
+      <entry key="M5" value="0.0" />
+      <entry key="M10" value="0.0" />
+      <entry key="M15" value="0.0" />
+      <entry key="M30" value="0.0" />
+      <entry key="H1" value="0.0" />
+      <entry key="H2" value="0.0" />
+      <entry key="H4" value="0.0" />
+      <entry key="D1" value="0.0" />
+      <entry key="W1" value="0.0" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="0.004274584770549764" />
+      <entry key="MS500" value="0.3358758564311371" />
+      <entry key="S2" value="0.7622300136240199" />
+      <entry key="S5" value="0.9584417484643957" />
+      <entry key="S10" value="1.1960086796616844" />
+      <entry key="S30" value="1.7660901092563295" />
+      <entry key="S60" value="2.5000036994461197" />
+      <entry key="M2" value="4.320480079494309" />
+      <entry key="M5" value="13.338159926313702" />
+      <entry key="M10" value="27.14250803000877" />
+      <entry key="M15" value="36.29148353704107" />
+      <entry key="M30" value="49.986584312121316" />
+      <entry key="H1" value="59.34282624334987" />
+      <entry key="H2" value="64.84703978350699" />
+      <entry key="H4" value="67.83727400968615" />
+      <entry key="D1" value="70.46043416817983" />
+      <entry key="W1" value="70.92260811018181" />
+    </decayedShown>
+  </component>
+  <component name="OptimizeOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4,
+  &quot;fromUser&quot;: false
+}</component>
+  <component name="ProjectId" id="3H03xI0R6jgWKhrJzwQvjcrXllY" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;copilot.chat.legacySessionMetadata.migrated&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;javascript.preferred.runtime.type.id&quot;: &quot;node&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/rafiferdos/dev/phero/assignments/assignment4/node_modules/typescript/lib&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.jshint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.jshint&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;pnpm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;settings.typescriptcompiler&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/home/rafiferdos/dev/phero/assignments/assignment4/node_modules/.pnpm/@typescript+typescript-linux-x64@7.0.2/node_modules/@typescript/typescript-linux-x64/lib&quot;,
+    &quot;typescript.add.unambiguous.imports.on.the.fly&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-4abd2a77f808-JavaScript-WS-262.8665.341" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="fdb04344-d699-48d3-add7-982392b5395e" name="Changes" comment="" />
+      <created>1784991404300</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1784991404300</updated>
+      <workItem from="1784991405565" duration="1638000" />
+      <workItem from="1784999049651" duration="1774000" />
+      <workItem from="1785000897901" duration="851000" />
+      <workItem from="1785001755304" duration="165000" />
+      <workItem from="1785001925813" duration="578000" />
+      <workItem from="1785002510978" duration="214000" />
+      <workItem from="1785002732642" duration="522000" />
+      <workItem from="1785003263047" duration="35000" />
+      <workItem from="1785003304563" duration="594000" />
+      <workItem from="1785003923703" duration="231000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
