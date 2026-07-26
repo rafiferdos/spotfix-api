@@ -50,7 +50,30 @@ const getAllBookingsByTechnician = catchAsync(
   }
 )
 
+const udpateBookingStatus = catchAsync(async (req: Request, res: Response) => {
+  const { bookingId } = req.params
+  const { status: newStatus } = req.body
+
+  if (!newStatus) {
+    throw new AppError(status.BAD_REQUEST, 'New status is required')
+  }
+
+  const updatedBooking = await bookingService.updateStatus(
+    bookingId as string,
+    {
+      status: newStatus
+    }
+  )
+
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: 'Booking status updated successfully',
+    data: updatedBooking
+  })
+})
+
 export const bookingController = {
   create: createBooking,
-  getAllByTechnician: getAllBookingsByTechnician
+  getAllByTechnician: getAllBookingsByTechnician,
+  updateStatus: udpateBookingStatus
 }
