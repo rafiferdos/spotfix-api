@@ -4,3 +4,7 @@ export interface ITechnicianProfilePayload {
   pricing: number
   availability: string
 }
+
+export interface IAvailabilityPayload {
+  availability: string
+}
