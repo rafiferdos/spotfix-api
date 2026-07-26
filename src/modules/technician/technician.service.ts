@@ -1,5 +1,8 @@
 import { prisma } from '@/lib/prisma.js'
-import type { ITechnicianProfilePayload } from './technician.interface.js'
+import type {
+  IAvailabilityPayload,
+  ITechnicianProfilePayload
+} from './technician.interface.js'
 
 const upsertProfileIntoDB = async (
   userId: string,
@@ -26,6 +29,18 @@ const upsertProfileIntoDB = async (
   return newProfile
 }
 
+const updateAvailabilityInDB = async (
+  technicianId: string,
+  payload: IAvailabilityPayload
+) => {
+  const updatedProfile = await prisma.technicianProfile.update({
+    where: { userId: technicianId },
+    data: payload
+  })
+  return updatedProfile
+}
+
 export const technicianService = {
-  upsert: upsertProfileIntoDB
+  upsert: upsertProfileIntoDB,
+  updateAvailability: updateAvailabilityInDB
 }
