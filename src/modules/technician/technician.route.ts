@@ -1,6 +1,7 @@
 import { UserRole } from '@/generated/prisma/enums.js'
 import { auth } from '@/middlewares/auth.js'
 import { Router } from 'express'
+import { bookingController } from '../booking/booking.controller.js'
 import { technicianController } from './technician.controller.js'
 
 const router = Router()
@@ -10,6 +11,11 @@ router.put(
   '/availability',
   auth(UserRole.TECHNICIAN),
   technicianController.updateAvailability
+)
+router.get(
+  '/bookings',
+  auth(UserRole.TECHNICIAN),
+  bookingController.getAllByTechnician
 )
 
 export const technicianRoutes = router
