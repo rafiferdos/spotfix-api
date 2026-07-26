@@ -40,12 +40,12 @@ app.use('/api/technician', technicianRoutes)
 /* --------------------------------------------------------------- */
 /*                         Category Routes                         */
 /* --------------------------------------------------------------- */
-app.use('/api/category', categoryRoutes)
+app.use('/api/categories', categoryRoutes)
 
 /* --------------------------------------------------------------- */
 /*                          Service Routes                          */
 /* --------------------------------------------------------------- */
-app.use('/api/service', serviceRoutes)
+app.use('/api/services', serviceRoutes)
 
 /* --------------------------------------------------------------- */
 /*                         Error Handling                          */
