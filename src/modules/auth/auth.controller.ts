@@ -67,8 +67,20 @@ const registerUser = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
+const getMe = catchAsync(async (req: Request, res: Response) => {
+  const userId = req.user?.id as string
+  const user = await AuthServices.getMe(userId)
+
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: 'User retrieved successfully',
+    data: user
+  })
+})
+
 export const AuthControllers = {
   login: loginUser,
   refreshToken,
-  register: registerUser
+  register: registerUser,
+  getMe
 }
