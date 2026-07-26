@@ -10,7 +10,7 @@ router.post('/refresh-token', AuthControllers.refreshToken)
 router.post('/register', AuthControllers.register)
 router.get(
   '/me',
-  auth(UserRole.ADMIN, UserRole.CUSTOMER, UserRole.PROVIDER),
+  auth(UserRole.ADMIN, UserRole.CUSTOMER, UserRole.TECHNICIAN),
   AuthControllers.getMe
 )
 
