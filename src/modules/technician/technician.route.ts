@@ -17,5 +17,10 @@ router.get(
   auth(UserRole.TECHNICIAN),
   bookingController.getAllByTechnician
 )
+router.patch(
+  '/bookings/:id',
+  auth(UserRole.TECHNICIAN),
+  bookingController.updateStatus
+)
 
 export const technicianRoutes = router
