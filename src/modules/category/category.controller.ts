@@ -16,7 +16,7 @@ const createCategory = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
-const getAllCategories = catchAsync(async (req: Request, res: Response) => {
+const getAllCategories = catchAsync(async (_req: Request, res: Response) => {
   const categories = await categoryService.getAll()
 
   sendResponse(res, {
