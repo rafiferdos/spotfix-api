@@ -70,6 +70,47 @@ const refreshToken = async (token: string) => {
     return { accessToken }
 }
 
+const registerUserIntoDB = async (payload: IReg) => {
+	const { name, email, password, profilePhoto } = payload
+
+	const user = await prisma.user.findUnique({
+		where: { email }
+	})
+	if (user) throw new AppError(status.CONFLICT, 'User with this email already exists')
+
+	const passwordHash = await bcrypt.hash(
+		password,
+		Number(config.bcryptSaltRounds)
+	)
+
+	const newUser = await prisma.user.create({
+		data: {
+			name,
+			email,
+			password: passwordHash,
+			profile: {
+				create: {
+					profilePhoto: profilePhoto || null
+				}
+			}
+		}
+	})
+
+	const result = await prisma.user.findUnique({
+		where: {
+			id: newUser.id,
+			email: newUser.email || email
+		},
+		include: {
+			profile: true
+		},
+		omit: {
+			password: true
+		}
+	})
+	return result
+}
+
 export const AuthServices = {
 	login: loginUserIntoDB,
 	refreshToken
