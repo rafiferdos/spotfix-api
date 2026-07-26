@@ -81,9 +81,20 @@ const viewMyBookings = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
+const getAllBookings = catchAsync(async (_req: Request, res: Response) => {
+  const bookings = await bookingService.getAll()
+
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: 'Bookings retrieved successfully',
+    data: bookings
+  })
+})
+
 export const bookingController = {
   create: createBooking,
   getAllByTechnician: getAllBookingsByTechnician,
   updateStatus: udpateBookingStatus,
-  viewMyBookings: viewMyBookings
+  viewMyBookings: viewMyBookings,
+  getAll: getAllBookings
 }
