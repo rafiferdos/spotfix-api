@@ -1,3 +1,4 @@
+import { AppError } from '@/utils/appError.js'
 import catchAsync from '@/utils/catchAsync.js'
 import sendResponse from '@/utils/sendResponse.js'
 import type { Request, Response } from 'express'
@@ -20,6 +21,13 @@ const upsertProfile = catchAsync(async (req: Request, res: Response) => {
 const updateAvailability = catchAsync(async (req: Request, res: Response) => {
   const technicianId = req.user?.id as string
   const payload = req.body
+
+  if (!payload || Array.isArray(payload)) {
+    throw new AppError(
+      status.BAD_REQUEST,
+      'Please provide an array of time slots for availability'
+    )
+  }
 
   const updatedProfile = await technicianService.updateAvailability(
     technicianId,
