@@ -4,6 +4,7 @@ import type { Application, Request, Response } from 'express'
 import express from 'express'
 import config from './config/index.js'
 import notFound from './middlewares/notFound.js'
+import { adminRoutes } from './modules/admin/admin.route.js'
 import { AuthRoutes } from './modules/auth/auth.route.js'
 import { categoryRoutes } from './modules/category/category.route.js'
 import { serviceRoutes } from './modules/service/service.route.js'
@@ -31,6 +32,11 @@ app.get('/', (_req: Request, res: Response) => {
 /*                          Auth Routes                            */
 /* --------------------------------------------------------------- */
 app.use('/api/auth', AuthRoutes)
+
+/* --------------------------------------------------------------- */
+/*                        Admin Routes                             */
+/* --------------------------------------------------------------- */
+app.use('/api/admin', adminRoutes)
 
 /* --------------------------------------------------------------- */
 /*                        Technician Routes                        */
