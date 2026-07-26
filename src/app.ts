@@ -5,6 +5,7 @@ import express from 'express'
 import config from './config/index.js'
 import notFound from './middlewares/notFound.js'
 import { AuthRoutes } from './modules/auth/auth.route.js'
+import { technicianRoutes } from './modules/technician/technician.route.js'
 import globalErrorHandler from './utils/globalErrorHandler.js'
 
 const app: Application = express()
@@ -28,6 +29,11 @@ app.get('/', (_req: Request, res: Response) => {
 /*                          Auth Routes                            */
 /* --------------------------------------------------------------- */
 app.use('/api/auth', AuthRoutes)
+
+/* --------------------------------------------------------------- */
+/*                        Technician Routes                        */
+/* --------------------------------------------------------------- */
+app.use('/api/technician', technicianRoutes)
 
 /* --------------------------------------------------------------- */
 /*                         Error Handling                          */
