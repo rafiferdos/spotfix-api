@@ -5,10 +5,6 @@ import { technicianController } from './technician.controller.js'
 
 const router = Router()
 
-router.put(
-  '/profile',
-  auth(UserRole.ADMIN, UserRole.CUSTOMER, UserRole.TECHNICIAN),
-  technicianController.upsert
-)
+router.put('/profile', auth(UserRole.TECHNICIAN), technicianController.upsert)
 
 export const technicianRoutes = router
