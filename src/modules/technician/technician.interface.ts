@@ -2,9 +2,9 @@ export interface ITechnicianProfilePayload {
   skills: string[]
   experience: number
   pricing: number
-  availability: string
+  availabilitySlots?: string[]
 }
 
 export interface IAvailabilityPayload {
-  availability: string[]
+  availabilitySlots: string[]
 }
