@@ -1,7 +1,7 @@
 enum UserRole {
   ADMIN
   CUSTOMER
-  PROVIDER
+  TECHNICIAN
 }
 
 enum BookingStatus {
