@@ -17,6 +17,23 @@ const upsertProfile = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
+const updateAvailability = catchAsync(async (req: Request, res: Response) => {
+  const technicianId = req.user?.id as string
+  const payload = req.body
+
+  const updatedProfile = await technicianService.updateAvailability(
+    technicianId,
+    payload
+  )
+
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: 'Technician availability updated successfully',
+    data: updatedProfile
+  })
+})
+
 export const technicianController = {
-  upsert: upsertProfile
+  upsert: upsertProfile,
+  updateAvailability
 }
