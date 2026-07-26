@@ -69,9 +69,14 @@ const viewMyBookingsFromDB = async (customerId: string) => {
   })
 }
 
+const getAllBookings = async () => {
+  return await prisma.booking.findMany()
+}
+
 export const bookingService = {
   create: createBookingInDB,
   getAllByTechnician: getAllBookingsByTechnician,
   updateStatus: updateBookingStatus,
-  viewMyBookings: viewMyBookingsFromDB
+  viewMyBookings: viewMyBookingsFromDB,
+  getAll: getAllBookings
 }
