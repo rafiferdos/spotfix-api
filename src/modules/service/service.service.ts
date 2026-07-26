@@ -18,7 +18,16 @@ const getAllServicesFromDB = async () => {
   const services = await prisma.service.findMany({
     include: {
       category: true,
-      technician: {}
+      technician: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          phone: true,
+          role: true,
+          address: true
+        }
+      }
     }
   })
   return services
