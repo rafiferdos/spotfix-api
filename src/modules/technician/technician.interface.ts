@@ -1,6 +1,6 @@
 export interface ITechnicianProfilePayload {
   skills: string[]
-  exprience: number
+  experience: number
   pricing: number
   availability: string
 }
