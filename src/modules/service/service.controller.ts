@@ -20,7 +20,7 @@ const createService = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
-const getAllServices = catchAsync(async (req: Request, res: Response) => {
+const getAllServices = catchAsync(async (_req: Request, res: Response) => {
   const services = await serviceService.getAllServicesFromDB()
 
   sendResponse(res, {
