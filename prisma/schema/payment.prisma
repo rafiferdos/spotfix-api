@@ -7,4 +7,10 @@ model Payment {
   provider      String        @default("Stripe")
   status        PaymentStatus @default(PENDING)
   paidAt        DateTime?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@index([transactionId])
+  @@index([status])
+  @@map("payments")
 }
