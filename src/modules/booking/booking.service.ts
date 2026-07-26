@@ -1,7 +1,7 @@
 import { prisma } from '@/lib/prisma.js'
 import { AppError } from '@/utils/appError.js'
 import status from 'http-status'
-import type { IBookingPayload } from './booking.interface.js'
+import type { IBookingPayload, IBookingStatus } from './booking.interface.js'
 
 const createBookingInDB = async (
   customerId: string,
@@ -42,7 +42,24 @@ const getAllBookingsByTechnician = async (technicianId: string) => {
   })
 }
 
+const updateBookingStatus = async (
+  bookingId: string,
+  status: IBookingStatus
+) => {
+  await prisma.booking.findUniqueOrThrow({
+    where: { id: bookingId }
+  })
+
+  const updatedBooking = await prisma.booking.update({
+    where: { id: bookingId },
+    data: { status: status.status }
+  })
+
+  return updatedBooking
+}
+
 export const bookingService = {
   create: createBookingInDB,
-  getAllByTechnician: getAllBookingsByTechnician
+  getAllByTechnician: getAllBookingsByTechnician,
+  updateStatus: updateBookingStatus
 }
