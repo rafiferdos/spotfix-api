@@ -3,21 +3,27 @@ import type { ITechnicianProfilePayload } from './technician.interface.js'
 
 const upsertProfileIntoDB = async (
   userId: string,
-  payload: ITechnicianProfilePayload
+  payload: Partial<ITechnicianProfilePayload>
 ) => {
-  const profile = await prisma.technicianProfile.upsert({
-    where: {
-      userId
-    },
-    create: {
+  const existingProfile = await prisma.technicianProfile.findUnique({
+    where: { userId }
+  })
+
+  if (existingProfile) {
+    const updatedProfile = await prisma.technicianProfile.update({
+      where: { userId },
+      data: payload
+    })
+    return updatedProfile
+  }
+
+  const newProfile = await prisma.technicianProfile.create({
+    data: {
       userId,
-      ...payload
-    },
-    update: {
-      ...payload
+      ...(payload as ITechnicianProfilePayload)
     }
   })
-  return profile
+  return newProfile
 }
 
 export const technicianService = {
