@@ -6,5 +6,5 @@ export interface ITechnicianProfilePayload {
 }
 
 export interface IAvailabilityPayload {
-  availability: string
+  availability: string[]
 }
