@@ -1,7 +1,7 @@
 import { prisma } from '@/lib/prisma.js'
 import type { ITechnicianProfilePayload } from './technician.interface.js'
 
-const upsertProfile = async (
+const upsertProfileIntoDB = async (
   userId: string,
   payload: ITechnicianProfilePayload
 ) => {
@@ -21,5 +21,5 @@ const upsertProfile = async (
 }
 
 export const technicianService = {
-  upsert: upsertProfile
+  upsert: upsertProfileIntoDB
 }
