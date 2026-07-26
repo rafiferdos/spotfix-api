@@ -6,6 +6,8 @@ model TechnicianProfile {
   experience   Float
   pricing      Float
   availability String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   @@index([skills], type: Gin)
   @@index([userId])
