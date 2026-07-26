@@ -25,6 +25,7 @@ const getAllServicesFromDB = async () => {
           email: true,
           phone: true,
           role: true,
+          status: true,
           address: true
         }
       }
