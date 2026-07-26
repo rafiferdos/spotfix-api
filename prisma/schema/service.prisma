@@ -5,6 +5,8 @@ model Service {
   price        Float
   technicianId String
   technician   User     @relation(fields: [technicianId], references: [id], onDelete: Cascade)
+  categoryId   String
+  category     Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
@@ -12,5 +14,6 @@ model Service {
 
   @@index([technicianId])
   @@index([title])
+  @@index([categoryId])
   @@map("services")
 }
