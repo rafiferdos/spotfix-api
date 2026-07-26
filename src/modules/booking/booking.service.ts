@@ -34,6 +34,15 @@ const createBookingInDB = async (
   return newBooking
 }
 
+const getAllBookingsByTechnician = async (technicianId: string) => {
+  return await prisma.booking.findMany({
+    where: {
+      technicianId
+    }
+  })
+}
+
 export const bookingService = {
-  create: createBookingInDB
+  create: createBookingInDB,
+  getAllByTechnician: getAllBookingsByTechnician
 }
