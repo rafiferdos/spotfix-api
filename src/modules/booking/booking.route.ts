@@ -1,0 +1,11 @@
+import { UserRole } from '@/generated/prisma/enums.js'
+import { auth } from '@/middlewares/auth.js'
+import { Router } from 'express'
+import { bookingController } from './booking.controller.js'
+
+const router = Router()
+
+// Customer route for creating a booking
+router.post('/', auth(UserRole.CUSTOMER), bookingController.create)
+
+export const bookingRoutes = router
