@@ -1,13 +1,14 @@
 model TechnicianProfile {
-  id           String   @id @default(uuid())
-  userId       String   @unique
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  skills       String[]
-  experience   Float
-  pricing      Float
-  availability String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id                String   @id @default(uuid())
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  skills            String[]
+  availabilitySlots String[] @default([])
+  experience        Float
+  pricing           Float
+  availability      String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 
   @@index([skills], type: Gin)
   @@index([experience])
