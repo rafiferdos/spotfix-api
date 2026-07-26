@@ -15,9 +15,9 @@ const getAllUsers = catchAsync(async (_req: Request, res: Response) => {
 })
 
 const banUser = catchAsync(async (req: Request, res: Response) => {
-  const { userId } = req.params
+  const { id } = req.params
 
-  const bannedUser = await userService.ban(userId as string)
+  const bannedUser = await userService.ban(id as string)
 
   sendResponse(res, {
     statusCode: status.OK,
