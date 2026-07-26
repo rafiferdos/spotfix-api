@@ -74,7 +74,7 @@ const refreshToken = async (token: string) => {
 }
 
 const registerUserIntoDB = async (payload: IRegisterUserPayload) => {
-  const { name, email, password } = payload
+  const { name, email, password, phone, role, address } = payload
 
   const user = await prisma.user.findUnique({
     where: { email }
@@ -91,7 +91,10 @@ const registerUserIntoDB = async (payload: IRegisterUserPayload) => {
     data: {
       name,
       email,
-      password: passwordHash
+      password: passwordHash,
+      phone,
+      role,
+      address
     }
   })
 
