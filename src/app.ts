@@ -6,6 +6,7 @@ import config from './config/index.js'
 import notFound from './middlewares/notFound.js'
 import { adminRoutes } from './modules/admin/admin.route.js'
 import { AuthRoutes } from './modules/auth/auth.route.js'
+import { bookingRoutes } from './modules/booking/booking.route.js'
 import { categoryRoutes } from './modules/category/category.route.js'
 import { serviceRoutes } from './modules/service/service.route.js'
 import { technicianRoutes } from './modules/technician/technician.route.js'
@@ -52,6 +53,11 @@ app.use('/api/categories', categoryRoutes)
 /*                          Service Routes                          */
 /* --------------------------------------------------------------- */
 app.use('/api/services', serviceRoutes)
+
+/* --------------------------------------------------------------- */
+/*                          Booking Routes                          */
+/* --------------------------------------------------------------- */
+app.use('/api/bookings', bookingRoutes)
 
 /* --------------------------------------------------------------- */
 /*                         Error Handling                          */
