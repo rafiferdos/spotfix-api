@@ -10,9 +10,10 @@ model User {
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 
-  services   Service[]
-  customer   Booking[] @relation("CustomerBookings")
-  technician Booking[] @relation("TechnicianBookings")
+  services          Service[]
+  customer          Booking[]          @relation("CustomerBookings")
+  technician        Booking[]          @relation("TechnicianBookings")
+  technicianProfile TechnicianProfile?
 
   @@map("users")
 }
