@@ -46,9 +46,12 @@ const updateBookingStatus = async (
   bookingId: string,
   status: IBookingStatus
 ) => {
-  await prisma.booking.findUniqueOrThrow({
-    where: { id: bookingId }
+  const existingStatus = await prisma.booking.findUniqueOrThrow({
+    where: { id: bookingId },
+    select: { status: true }
   })
+  if (existingStatus.status === status.status)
+    throw new AppError(403, 'Booking already has this status')
 
   const updatedBooking = await prisma.booking.update({
     where: { id: bookingId },
