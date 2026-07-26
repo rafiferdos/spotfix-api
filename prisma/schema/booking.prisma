@@ -1,20 +1,20 @@
 model Booking {
   id           String        @id @default(uuid())
   customerId   String
-  providerId   String
+  technicianId String
   serviceId    String
-  status       BookingStatus @default(PENDING)
+  status       BookingStatus @default(REQUESTED)
   scheduleDate DateTime
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
 
-  customer User    @relation("CustomerBookings", fields: [customerId], references: [id], onDelete: Cascade)
-  provider User    @relation("ProviderBookings", fields: [providerId], references: [id], onDelete: Cascade)
-  service  Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
-  review   Review?
+  customer   User    @relation("CustomerBookings", fields: [customerId], references: [id], onDelete: Cascade)
+  technician User    @relation("TechnicianBookings", fields: [technicianId], references: [id], onDelete: Cascade)
+  service    Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  review     Review?
 
   @@index([customerId])
-  @@index([providerId])
+  @@index([technicianId])
   @@index([status])
   @@map("bookings")
 }
