@@ -58,8 +58,17 @@ const updateBookingStatus = async (
   return updatedBooking
 }
 
+const viewMyBookingsFromDB = async (customerId: string) => {
+  return await prisma.booking.findMany({
+    where: {
+      customerId
+    }
+  })
+}
+
 export const bookingService = {
   create: createBookingInDB,
   getAllByTechnician: getAllBookingsByTechnician,
-  updateStatus: updateBookingStatus
+  updateStatus: updateBookingStatus,
+  viewMyBookings: viewMyBookingsFromDB
 }
