@@ -6,6 +6,7 @@ import config from './config/index.js'
 import notFound from './middlewares/notFound.js'
 import { AuthRoutes } from './modules/auth/auth.route.js'
 import { categoryRoutes } from './modules/category/category.route.js'
+import { serviceRoutes } from './modules/service/service.route.js'
 import { technicianRoutes } from './modules/technician/technician.route.js'
 import globalErrorHandler from './utils/globalErrorHandler.js'
 
@@ -40,6 +41,11 @@ app.use('/api/technician', technicianRoutes)
 /*                         Category Routes                         */
 /* --------------------------------------------------------------- */
 app.use('/api/category', categoryRoutes)
+
+/* --------------------------------------------------------------- */
+/*                          Service Routes                          */
+/* --------------------------------------------------------------- */
+app.use('/api/service', serviceRoutes)
 
 /* --------------------------------------------------------------- */
 /*                         Error Handling                          */
