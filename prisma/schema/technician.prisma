@@ -1,0 +1,16 @@
+model TechnicianProfile {
+  id           String   @id @default(uuid())
+  userId       String   @unique
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  skills       String[]
+  experience   Float
+  pricing      Float
+  availability String
+
+  @@index([skills], type: Gin)
+  @@index([userId])
+  @@index([experience])
+  @@index([pricing])
+  @@index([availability])
+  @@map("technician_profiles")
+}
