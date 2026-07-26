@@ -69,8 +69,21 @@ const udpateBookingStatus = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
+const viewMyBookings = catchAsync(async (req: Request, res: Response) => {
+  const customerId = req.user?.id as string
+
+  const bookings = await bookingService.viewMyBookings(customerId)
+
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: 'Bookings retrieved successfully',
+    data: bookings
+  })
+})
+
 export const bookingController = {
   create: createBooking,
   getAllByTechnician: getAllBookingsByTechnician,
-  updateStatus: udpateBookingStatus
+  updateStatus: udpateBookingStatus,
+  viewMyBookings: viewMyBookings
 }
