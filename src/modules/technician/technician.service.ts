@@ -31,11 +31,11 @@ const upsertProfileIntoDB = async (
 
 const updateAvailabilityInDB = async (
   technicianId: string,
-  payload: IAvailabilityPayload
+  slots: IAvailabilityPayload
 ) => {
   const updatedProfile = await prisma.technicianProfile.update({
     where: { userId: technicianId },
-    data: payload
+    data: slots
   })
   return updatedProfile
 }
