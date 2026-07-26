@@ -20,9 +20,9 @@ const upsertProfile = catchAsync(async (req: Request, res: Response) => {
 
 const updateAvailability = catchAsync(async (req: Request, res: Response) => {
   const technicianId = req.user?.id as string
-  const payload = req.body
+  const { slots } = req.body
 
-  if (!payload || Array.isArray(payload)) {
+  if (!slots || !Array.isArray(slots)) {
     throw new AppError(
       status.BAD_REQUEST,
       'Please provide an array of time slots for availability'
@@ -31,7 +31,7 @@ const updateAvailability = catchAsync(async (req: Request, res: Response) => {
 
   const updatedProfile = await technicianService.updateAvailability(
     technicianId,
-    payload
+    { availabilitySlots: slots }
   )
 
   sendResponse(res, {
