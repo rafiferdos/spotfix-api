@@ -1,3 +1,4 @@
+import { BookingStatus } from '@/generated/prisma/enums.js'
 import { prisma } from '@/lib/prisma.js'
 import { AppError } from '@/utils/appError.js'
 import status from 'http-status'
@@ -19,6 +20,13 @@ const createReviewIntoDB = async (userId: string, payload: IReviewPayload) => {
       status.FORBIDDEN,
       'You are not allowed to create a review for this booking'
     )
+
+  if (booking.status !== BookingStatus.COMPLETED)
+    throw new AppError(
+      status.BAD_REQUEST,
+      'You can only create a review for completed bookings'
+    )
+
   const existingReview = await prisma.review.findUnique({
     where: { bookingId: payload.bookingId }
   })
