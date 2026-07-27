@@ -48,23 +48,44 @@ const getAllTechniciansFromDB = async () => {
 const getTechnicianProfileWithReviews = async (technicianId: string) => {
   const profile = await prisma.technicianProfile.findUniqueOrThrow({
     where: { userId: technicianId },
-    include: {
+    select: {
+      id: true,
+      skills: true,
+      availabilitySlots: true,
+      experience: true,
+      pricing: true,
       user: {
-        include: {
+        select: {
+          name: true,
+          email: true,
+          phone: true,
           technician: {
-            // where: {
-            //   // Optional: Only include bookings that actually have a review
-            //   review: { isNot: null }
-            // },
-            include: {
-              review: true,
-              service: true
+            select: {
+              id: true,
+              status: true,
+              scheduleDate: true,
+              review: {
+                select: {
+                  id: true,
+                  rating: true,
+                  comment: true,
+                  createdAt: true
+                }
+              },
+              service: {
+                select: {
+                  id: true,
+                  title: true,
+                  description: true
+                }
+              }
             }
           }
         }
       }
     }
   })
+
   return profile
 }
 
