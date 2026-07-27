@@ -4,10 +4,15 @@ import status from 'http-status'
 import type { IReviewPayload } from './review.interface.js'
 
 const createReviewIntoDB = async (userId: string, payload: IReviewPayload) => {
-  const booking = await prisma.booking.findUniqueOrThrow({
+  const booking = await prisma.booking.findUnique({
     where: { id: payload.bookingId },
     include: { review: true }
   })
+  if (!booking)
+    throw new AppError(
+      status.NOT_FOUND,
+      'Booking not found. Please check the booking ID.'
+    )
 
   if (booking.customerId !== userId)
     throw new AppError(
@@ -28,8 +33,8 @@ const createReviewIntoDB = async (userId: string, payload: IReviewPayload) => {
     data: {
       rating: payload.rating,
       comment: payload.comment,
-      bookingId: payload.bookingId,
-      customerId: userId
+      bookingId: payload.bookingId
+      // customerId: userId
     }
   })
   return newReview
