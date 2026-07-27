@@ -40,7 +40,13 @@ const updateAvailabilityInDB = async (
   return updatedProfile
 }
 
+const getAllTechnicians = async () => {
+  const technicians = await prisma.technicianProfile.findMany()
+  return technicians
+}
+
 export const technicianService = {
   upsert: upsertProfileIntoDB,
-  updateAvailability: updateAvailabilityInDB
+  updateAvailability: updateAvailabilityInDB,
+  allTechnicians: getAllTechnicians
 }
