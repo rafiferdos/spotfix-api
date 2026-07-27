@@ -45,8 +45,19 @@ const getAllTechniciansFromDB = async () => {
   return technicians
 }
 
+const getTechnicianProfileWithReviews = async (technicianId: string) => {
+  const profile = await prisma.technicianProfile.findUniqueOrThrow({
+    where: { userId: technicianId },
+    include: {
+      reviews: true
+    }
+  })
+  return profile
+}
+
 export const technicianService = {
   upsert: upsertProfileIntoDB,
   updateAvailability: updateAvailabilityInDB,
-  allTechnicians: getAllTechniciansFromDB
+  allTechnicians: getAllTechniciansFromDB,
+  getProfileWithReviews: getTechnicianProfileWithReviews
 }
