@@ -49,7 +49,26 @@ const getTechnicianProfileWithReviews = async (technicianId: string) => {
   const profile = await prisma.technicianProfile.findUniqueOrThrow({
     where: { userId: technicianId },
     include: {
-      reviews: true
+      user: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          TechnicianBookings: {
+            select: {
+              id: true,
+              scheduleDate: true,
+              review: true,
+              customer: {
+                select: { name: true }
+              },
+              service: {
+                select: { name: true }
+              }
+            }
+          }
+        }
+      }
     }
   })
   return profile
