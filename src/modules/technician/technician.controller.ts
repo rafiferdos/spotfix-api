@@ -41,7 +41,18 @@ const updateAvailability = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
+const getAllTechnicians = catchAsync(async (_req: Request, res: Response) => {
+  const technicians = await technicianService.allTechnicians()
+
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: 'Technicians retrieved successfully',
+    data: technicians
+  })
+})
+
 export const technicianController = {
   upsert: upsertProfile,
-  updateAvailability
+  updateAvailability,
+  getAllTechnicians
 }
