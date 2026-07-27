@@ -8,6 +8,7 @@ import { adminRoutes } from './modules/admin/admin.route.js'
 import { AuthRoutes } from './modules/auth/auth.route.js'
 import { bookingRoutes } from './modules/booking/booking.route.js'
 import { categoryRoutes } from './modules/category/category.route.js'
+import { reviewRoutes } from './modules/review/review.route.js'
 import { serviceRoutes } from './modules/service/service.route.js'
 import { technicianRoutes } from './modules/technician/technician.route.js'
 import { technicianPublicRoutes } from './modules/technician/technicians.route.js'
@@ -60,6 +61,11 @@ app.use('/api/services', serviceRoutes)
 /*                          Booking Routes                          */
 /* --------------------------------------------------------------- */
 app.use('/api/bookings', bookingRoutes)
+
+/* --------------------------------------------------------------- */
+/*                          Review Routes                          */
+/* --------------------------------------------------------------- */
+app.use('/api/reviews', reviewRoutes)
 
 /* --------------------------------------------------------------- */
 /*                         Error Handling                          */
