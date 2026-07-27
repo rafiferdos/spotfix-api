@@ -50,15 +50,15 @@ const getTechnicianProfileWithReviews = async (technicianId: string) => {
     where: { userId: technicianId },
     include: {
       user: {
-        select: {
-          id: true,
-          name: true,
-          email: true,
-          TechnicianBookings: {
-            select: {
-              id: true,
-              scheduleDate: true,
-              review: true
+        include: {
+          technician: {
+            // where: {
+            //   // Optional: Only include bookings that actually have a review
+            //   review: { isNot: null }
+            // },
+            include: {
+              review: true,
+              service: true
             }
           }
         }
