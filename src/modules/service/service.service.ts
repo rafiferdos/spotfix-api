@@ -1,3 +1,4 @@
+import type { Prisma } from '@/generated/prisma/client.js'
 import { prisma } from '@/lib/prisma.js'
 import { AppError } from '@/utils/appError.js'
 import status from 'http-status'
@@ -29,27 +30,53 @@ const createServiceIntoDB = async (
   return newService
 }
 
-const getAllServicesFromDB = async () => {
-  const services = await prisma.service.findMany({
-    include: {
-      category: true,
-      technician: {
-        select: {
-          id: true,
-          name: true,
-          email: true,
-          phone: true,
-          role: true,
-          status: true,
-          address: true
+const getAllServicesFilteredFromDB = async (filters: {
+  categoryId?: string
+  location?: string
+  rating?: number
+  search?: string
+}) => {
+  const whereConditions: Prisma.ServiceWhereInput = {}
+
+  if (filters.search) {
+    whereConditions.OR = [
+      { title: { contains: filters.search, mode: 'insensitive' } },
+      { description: { contains: filters.search, mode: 'insensitive' } }
+    ]
+  }
+
+  if (filters.categoryId) {
+    whereConditions.categoryId = filters.categoryId
+  }
+
+  if (filters.location) {
+    // Nested query to filter by the technician's address
+    whereConditions.technician = {
+      address: { contains: filters.location, mode: 'insensitive' }
+    }
+  }
+
+  if (filters.rating) {
+    // Filter services that have at least one booking with a review >= specified rating
+    whereConditions.bookings = {
+      some: {
+        review: {
+          rating: { gte: filters.rating }
         }
       }
     }
+  }
+
+  return await prisma.service.findMany({
+    where: whereConditions,
+    include: {
+      category: { select: { name: true } },
+      technician: { select: { name: true, address: true } }
+    }
   })
-  return services
 }
 
 export const serviceService = {
   createServiceIntoDB,
-  getAllServicesFromDB
+  getAllFiltered: getAllServicesFilteredFromDB
 }
