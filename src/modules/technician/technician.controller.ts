@@ -41,9 +41,13 @@ const updateAvailability = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
-const getAllTechnicians = catchAsync(async (_req: Request, res: Response) => {
-  const technicians = await technicianService.allTechnicians()
-
+const getAllTechnicians = catchAsync(async (req: Request, res: Response) => {
+  const { skill, location, rating } = req.query
+const technicians = await technicianService.allTechnicians({
+    skill: skill as string,
+    location: location as string,
+    rating: rating ? Number(rating) : undefined
+  })
   sendResponse(res, {
     statusCode: status.OK,
     message: 'Technicians retrieved successfully',
