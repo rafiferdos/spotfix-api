@@ -6,6 +6,7 @@ import { technicianController } from './technician.controller.js'
 
 const router = Router()
 
+// Technician Routes
 router.put('/profile', auth(UserRole.TECHNICIAN), technicianController.upsert)
 router.put(
   '/availability',
@@ -22,5 +23,8 @@ router.patch(
   auth(UserRole.TECHNICIAN),
   bookingController.updateStatus
 )
+
+// Public Routes
+router.get('/', technicianController.getAllTechnicians)
 
 export const technicianRoutes = router
