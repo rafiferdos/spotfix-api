@@ -1,3 +1,4 @@
+import type { Prisma } from '@/generated/prisma/client.js'
 import { prisma } from '@/lib/prisma.js'
 import type {
   IAvailabilityPayload,
@@ -40,11 +41,58 @@ const updateAvailabilityInDB = async (
   return updatedProfile
 }
 
-const getAllTechniciansFromDB = async () => {
-  const technicians = await prisma.technicianProfile.findMany()
-  return technicians
-}
+const getAllTechniciansFromDB = async (filters: {
+  skill?: string
+  location?: string
+  rating?: number
+}) => {
+  const whereConditions: Prisma.TechnicianProfileWhereInput = {}
 
+  if (filters.skill) {
+    // Check if the skill array contains the specific string
+    whereConditions.skills = { has: filters.skill }
+  }
+
+  // We build a nested user condition if location or rating exists
+  const userConditions: Prisma.UserWhereInput = {}
+
+  if (filters.location) {
+    userConditions.address = { contains: filters.location, mode: 'insensitive' }
+  }
+
+  if (filters.rating) {
+    // Match technicians whose bookings have reviews >= specified rating
+    userConditions.technician = {
+      some: {
+        review: {
+          rating: { gte: filters.rating }
+        }
+      }
+    }
+  }
+
+  // Attach userConditions to the main where object if it has any keys
+  if (Object.keys(userConditions).length > 0) {
+    whereConditions.user = userConditions
+  }
+
+  return await prisma.technicianProfile.findMany({
+    where: whereConditions,
+    select: {
+      id: true,
+      skills: true,
+      experience: true,
+      pricing: true,
+      user: {
+        select: {
+          name: true,
+          address: true,
+          email: true
+        }
+      }
+    }
+  })
+}
 const getTechnicianProfileWithReviews = async (technicianId: string) => {
   const profile = await prisma.technicianProfile.findUniqueOrThrow({
     where: { userId: technicianId },
