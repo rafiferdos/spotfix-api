@@ -20,8 +20,15 @@ const createService = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
-const getAllServices = catchAsync(async (_req: Request, res: Response) => {
-  const services = await serviceService.getAllServicesFromDB()
+const getAllServices = catchAsync(async (req: Request, res: Response) => {
+  const { categoryId, location, rating, search } = req.query
+
+  const services = await serviceService.getAllFiltered({
+    categoryId: categoryId as string,
+    location: location as string,
+    rating: rating ? Number(rating) : undefined,
+    search: search as string
+  })
 
   sendResponse(res, {
     statusCode: status.OK,
