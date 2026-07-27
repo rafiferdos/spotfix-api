@@ -10,6 +10,7 @@ import { bookingRoutes } from './modules/booking/booking.route.js'
 import { categoryRoutes } from './modules/category/category.route.js'
 import { serviceRoutes } from './modules/service/service.route.js'
 import { technicianRoutes } from './modules/technician/technician.route.js'
+import { technicianPublicRoutes } from './modules/technician/technicians.route.js'
 import globalErrorHandler from './utils/globalErrorHandler.js'
 
 const app: Application = express()
@@ -43,6 +44,7 @@ app.use('/api/admin', adminRoutes)
 /*                        Technician Routes                        */
 /* --------------------------------------------------------------- */
 app.use('/api/technician', technicianRoutes)
+app.use('/api/technicians', technicianPublicRoutes)
 
 /* --------------------------------------------------------------- */
 /*                         Category Routes                         */
