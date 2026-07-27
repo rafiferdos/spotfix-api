@@ -58,13 +58,7 @@ const getTechnicianProfileWithReviews = async (technicianId: string) => {
             select: {
               id: true,
               scheduleDate: true,
-              review: true,
-              customer: {
-                select: { name: true }
-              },
-              service: {
-                select: { name: true }
-              }
+              review: true
             }
           }
         }
