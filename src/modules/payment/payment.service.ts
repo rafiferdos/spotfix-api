@@ -117,7 +117,11 @@ const getPaymentDetails = async (userId: string, paymentId: string) => {
       booking: {
         include: {
           service: true,
-          technician: true
+          technician: {
+            omit: {
+              password: true
+            }
+          }
         }
       }
     }
