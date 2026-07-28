@@ -34,7 +34,38 @@ const webhook = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
+const getPaymentHistory = catchAsync(async (req: Request, res: Response) => {
+  const userId = req.user?.id as string
+
+  const paymentHistory = await paymentService.history(userId)
+
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: 'Payment history retrieved successfully',
+    data: paymentHistory
+  })
+})
+
+const getPaymentDetails = catchAsync(async (req: Request, res: Response) => {
+  const userId = req.user?.id as string
+  const { id } = req.params
+
+  if (!id) {
+    throw new AppError(status.BAD_REQUEST, 'Payment ID is required')
+  }
+
+  const paymentDetails = await paymentService.details(userId, id as string)
+
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: 'Payment details retrieved successfully',
+    data: paymentDetails
+  })
+})
+
 export const paymentController = {
   checkout,
-  webhook
+  webhook,
+  history: getPaymentHistory,
+  details: getPaymentDetails
 }
