@@ -93,7 +93,46 @@ const handleWebhook = async (payload: Buffer, sig: string) => {
   }
 }
 
+const getPaymentHistoryFromDB = async (userId: string) => {
+  const payments = await prisma.payment.findMany({
+    where: { booking: { customerId: userId } },
+    include: {
+      booking: {
+        include: {
+          service: true,
+          technician: true
+        }
+      }
+    },
+    orderBy: { paidAt: 'desc' }
+  })
+
+  return payments
+}
+
+const getPaymentDetails = async (userId: string, paymentId: string) => {
+  const payment = await prisma.payment.findUnique({
+    where: { id: paymentId },
+    include: {
+      booking: {
+        include: {
+          service: true,
+          technician: true
+        }
+      }
+    }
+  })
+
+  if (!payment) throw new AppError(status.NOT_FOUND, 'Payment not found')
+  if (payment.booking.customerId !== userId)
+    throw new AppError(status.FORBIDDEN, 'Unauthorized')
+
+  return payment
+}
+
 export const paymentService = {
   createCheckoutSession,
-  handleWebhook
+  handleWebhook,
+  history: getPaymentHistoryFromDB,
+  details: getPaymentDetails
 }
