@@ -91,10 +91,23 @@ const getAllBookings = catchAsync(async (_req: Request, res: Response) => {
   })
 })
 
+const getSingleBookingById = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params
+
+  const booking = await bookingService.getSingleBooking(id as string)
+
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: 'Booking retrieved successfully',
+    data: booking
+  })
+})
+
 export const bookingController = {
   create: createBooking,
   getAllByTechnician: getAllBookingsByTechnician,
   updateStatus: udpateBookingStatus,
   viewMyBookings: viewMyBookings,
-  getAll: getAllBookings
+  getAll: getAllBookings,
+  getSingle: getSingleBookingById
 }
