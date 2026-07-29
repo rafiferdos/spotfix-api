@@ -10,14 +10,14 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
 
   res.cookie('refreshToken', result.refreshToken, {
     httpOnly: true,
-    secure: false,
+    secure: true,
     sameSite: 'none',
     maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
   })
 
   res.cookie('accessToken', result.accessToken, {
     httpOnly: true,
-    secure: false, // Set to true in production when using HTTPS
+    secure: true, // Set to true in production when using HTTPS
     sameSite: 'none',
     maxAge: 15 * 60 * 1000 // 15 minutes
   })
@@ -40,7 +40,7 @@ const refreshToken = catchAsync(async (req: Request, res: Response) => {
 
   res.cookie('accessToken', accessToken, {
     httpOnly: true,
-    secure: false, // Set to true in production when using HTTPS
+    secure: true, // Set to true in production when using HTTPS
     sameSite: 'none',
     maxAge: 15 * 60 * 1000 // 15 minutes
   })
