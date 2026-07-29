@@ -3,13 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-"scripts": {
-  "dev": "tsx watch src/server.ts",
-  "postinstall": "prisma generate",
-  "build": "tsc && tsc-alias",
-  "start": "node dist/server.js",
-  "stripe:webhook": "stripe listen --forward-to localhost:5000/api/payments/confirm"
-},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "stripe:webhook": "stripe listen --forward-to localhost:5000/api/payments/confirm"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -42,6 +42,7 @@
     "@types/node": "^26.1.1",
     "@types/pg": "^8.20.0",
     "prisma": "^7.9.0",
+    "tsc-alias": "^1.9.1",
     "tsx": "^4.23.1",
     "typescript": "^7.0.2"
   }
