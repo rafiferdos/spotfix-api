@@ -48,7 +48,7 @@ src/
 **1. Clone the repository and install dependencies:**
 
 ```bash
-git clone <repository_url>
+git clone "https://github.com/rafiferdos/spotfix-api.git"
 cd spotfix-backend
 pnpm install
 ```
