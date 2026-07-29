@@ -87,6 +87,17 @@ const registerUserIntoDB = async (payload: IRegisterUserPayload) => {
     Number(config.bcryptSaltRounds)
   )
 
+  if (payload.role === 'ADMIN') {
+    const adminExists = await prisma.user.findFirst({
+      where: { role: 'ADMIN' }
+    })
+    if (adminExists)
+      throw new AppError(
+        status.CONFLICT,
+        'An admin already exists. You cannot create multiple admin accounts.'
+      )
+  }
+
   const newUser = await prisma.user.create({
     data: {
       name,
