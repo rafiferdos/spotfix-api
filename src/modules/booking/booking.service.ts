@@ -73,10 +73,18 @@ const getAllBookings = async () => {
   return await prisma.booking.findMany()
 }
 
+const getSingleBookingByIdFromDB = async (bookingId: string) => {
+  const booking = await prisma.booking.findUniqueOrThrow({
+    where: { id: bookingId }
+  })
+  return booking
+}
+
 export const bookingService = {
   create: createBookingInDB,
   getAllByTechnician: getAllBookingsByTechnician,
   updateStatus: updateBookingStatus,
   viewMyBookings: viewMyBookingsFromDB,
-  getAll: getAllBookings
+  getAll: getAllBookings,
+  getSingleBooking: getSingleBookingByIdFromDB
 }
