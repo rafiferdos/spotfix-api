@@ -115,4 +115,4 @@ The complete API reference is maintained in **Apidog / Postman**. Import the col
 
 ---
 
-_Built with ❤️ for Spotfix._
+_Built with ❤️ by Rafi Ferdos_
