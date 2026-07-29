@@ -8,5 +8,6 @@ const router = Router()
 // Customer route for creating a booking
 router.post('/', auth(UserRole.CUSTOMER), bookingController.create)
 router.get('/', auth(UserRole.CUSTOMER), bookingController.viewMyBookings)
+router.get('/:id', auth(UserRole.CUSTOMER), bookingController.getSingle)
 
 export const bookingRoutes = router
