@@ -15,7 +15,7 @@ Spotfix is a robust, modular, and scalable backend service for an on-demand serv
 - **Runtime environment:** Node.js
 - **Framework:** Express.js (TypeScript)
 - **ORM:** Prisma
-- **Database:** PostgreSQL / MongoDB (Configured via Prisma)
+- **Database:** PostgreSQL
 - **Payments:** Stripe API & Stripe CLI
 - **Package Manager:** pnpm
 
