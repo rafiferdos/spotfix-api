@@ -8,19 +8,28 @@ const createBookingInDB = async (
   customerId: string,
   payload: IBookingPayload
 ) => {
+  // Check if there is already an ACTIVE booking for the exact same details
   const existingBooking = await prisma.booking.findFirst({
     where: {
       customerId,
       technicianId: payload.technicianId,
       serviceId: payload.serviceId,
-      scheduleDate: new Date(payload.scheduleDate)
+      scheduleDate: new Date(payload.scheduleDate),
+      status: {
+        in: [
+          BookingStatus.REQUESTED,
+          BookingStatus.ACCEPTED,
+          BookingStatus.PAID,
+          BookingStatus.IN_PROGRESS
+        ]
+      }
     }
   })
 
   if (existingBooking) {
     throw new AppError(
       httpStatus.CONFLICT,
-      'Booking already exists for the given details'
+      'An active booking already exists for these details'
     )
   }
 
@@ -32,9 +41,9 @@ const createBookingInDB = async (
       scheduleDate: new Date(payload.scheduleDate)
     }
   })
+
   return newBooking
 }
-
 const getAllBookingsByTechnician = async (technicianId: string) => {
   return await prisma.booking.findMany({
     where: {
