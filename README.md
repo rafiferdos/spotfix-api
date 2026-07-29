@@ -1,4 +1,8 @@
-# 🛠️ Spotfix - Backend API
+# Spotfix API
+
+A robust backend service for Spotfix.
+
+🚀 **Live API Base URL:** [https://spotfix-api.vercel.app](https://spotfix-api.vercel.app)
 
 Spotfix is a robust, modular, and scalable backend service for an on-demand service booking platform. It features a strict state-machine-driven booking lifecycle, secure role-based access control (RBAC), and fully automated Stripe payment integrations via webhooks.
 
