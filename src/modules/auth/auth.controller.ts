@@ -10,7 +10,7 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
 
   res.cookie('refreshToken', result.refreshToken, {
     httpOnly: true,
-    secure: false, // Set to true in production when using HTTPS
+    secure: false,
     sameSite: 'none',
     maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
   })
