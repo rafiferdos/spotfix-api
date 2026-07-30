@@ -7,6 +7,7 @@ const router = Router()
 
 // Customer route for creating a booking
 router.post('/', auth(UserRole.CUSTOMER), bookingController.create)
+router.patch('/:id/cancel', auth(UserRole.CUSTOMER), bookingController.cancel)
 router.get('/', auth(UserRole.CUSTOMER), bookingController.viewMyBookings)
 router.get('/:id', auth(UserRole.CUSTOMER), bookingController.getSingle)
 

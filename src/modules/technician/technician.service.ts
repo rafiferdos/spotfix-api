@@ -80,6 +80,7 @@ const getAllTechniciansFromDB = async (filters: {
     where: whereConditions,
     select: {
       id: true,
+      userId: true,
       skills: true,
       experience: true,
       pricing: true,

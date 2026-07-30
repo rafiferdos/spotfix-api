@@ -76,7 +76,27 @@ const getAllServicesFilteredFromDB = async (filters: {
   })
 }
 
+const deleteServiceFromDB = async (serviceId: string, technicianId: string) => {
+  const service = await prisma.service.findUnique({
+    where: { id: serviceId },
+    include: { bookings: true }
+  })
+  if (!service) throw new AppError(status.NOT_FOUND, 'Service not found')
+  if (service.technicianId !== technicianId)
+    throw new AppError(status.FORBIDDEN, 'You cannot delete this service')
+
+  if (service.bookings.length > 0)
+    throw new AppError(
+      status.CONFLICT,
+      'This service has existing bookings and cannot be deleted'
+    )
+
+  await prisma.service.delete({ where: { id: serviceId } })
+  return service
+}
+
 export const serviceService = {
   createServiceIntoDB,
-  getAllFiltered: getAllServicesFilteredFromDB
+  getAllFiltered: getAllServicesFilteredFromDB,
+  deleteService: deleteServiceFromDB
 }

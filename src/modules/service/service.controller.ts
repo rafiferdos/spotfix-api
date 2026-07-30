@@ -37,7 +37,19 @@ const getAllServices = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
+const deleteService = catchAsync(async (req: Request, res: Response) => {
+  const technicianId = req.user?.id as string
+  const { id } = req.params
+  const deleted = await serviceService.deleteService(id as string, technicianId)
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: 'Service deleted successfully',
+    data: deleted
+  })
+})
+
 export const serviceController = {
   createService,
-  getAllServices
+  getAllServices,
+  deleteService
 }

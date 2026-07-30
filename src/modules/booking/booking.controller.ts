@@ -36,6 +36,17 @@ const createBooking = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
+const cancelBooking = catchAsync(async (req: Request, res: Response) => {
+  const customerId = req.user?.id as string
+  const { id } = req.params
+  const cancelled = await bookingService.cancel(customerId, id as string)
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: 'Booking cancelled successfully',
+    data: cancelled
+  })
+})
+
 const getAllBookingsByTechnician = catchAsync(
   async (req: Request, res: Response) => {
     const technicianId = req.user?.id as string
@@ -105,6 +116,7 @@ const getSingleBookingById = catchAsync(async (req: Request, res: Response) => {
 
 export const bookingController = {
   create: createBooking,
+  cancel: cancelBooking,
   getAllByTechnician: getAllBookingsByTechnician,
   updateStatus: udpateBookingStatus,
   viewMyBookings: viewMyBookings,

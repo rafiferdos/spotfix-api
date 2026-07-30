@@ -44,6 +44,31 @@ const createBookingInDB = async (
 
   return newBooking
 }
+
+const cancelBookingInDB = async (customerId: string, bookingId: string) => {
+  const booking = await prisma.booking.findUnique({ where: { id: bookingId } })
+
+  if (!booking) throw new AppError(httpStatus.NOT_FOUND, 'Booking not found')
+  if (booking.customerId !== customerId)
+    throw new AppError(httpStatus.FORBIDDEN, 'You cannot cancel this booking')
+
+  const cancellable: BookingStatus[] = [
+    BookingStatus.REQUESTED,
+    BookingStatus.ACCEPTED,
+    BookingStatus.PAID
+  ]
+  if (!cancellable.includes(booking.status))
+    throw new AppError(
+      httpStatus.FORBIDDEN,
+      'This booking can no longer be cancelled'
+    )
+
+  return prisma.booking.update({
+    where: { id: bookingId },
+    data: { status: BookingStatus.CANCELLED }
+  })
+}
+
 const getAllBookingsByTechnician = async (technicianId: string) => {
   return await prisma.booking.findMany({
     where: {
@@ -154,6 +179,7 @@ const getSingleBookingByIdFromDB = async (bookingId: string) => {
 
 export const bookingService = {
   create: createBookingInDB,
+  cancel: cancelBookingInDB,
   getAllByTechnician: getAllBookingsByTechnician,
   updateStatus: updateBookingStatus,
   viewMyBookings: viewMyBookingsFromDB,
