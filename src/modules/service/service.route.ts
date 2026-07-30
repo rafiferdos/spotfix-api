@@ -7,5 +7,10 @@ const router = Router()
 
 router.post('/', auth(UserRole.TECHNICIAN), serviceController.createService)
 router.get('/', serviceController.getAllServices)
+router.delete(
+  '/:id',
+  auth(UserRole.TECHNICIAN),
+  serviceController.deleteService
+)
 
 export const serviceRoutes = router
