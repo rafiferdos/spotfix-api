@@ -19,7 +19,10 @@ const getAllUsersFromDB = async () => {
 const banUserInDB = async (userId: string) => {
   const bannedUser = await prisma.user.update({
     where: { id: userId },
-    data: { status: UserStatus.BANNED }
+    data: { status: UserStatus.BANNED },
+    omit: {
+      password: true
+    }
   })
   return bannedUser
 }
@@ -27,7 +30,10 @@ const banUserInDB = async (userId: string) => {
 const unbanUserInDB = async (userId: string) => {
   const unbannedUser = await prisma.user.update({
     where: { id: userId },
-    data: { status: UserStatus.ACTIVE }
+    data: { status: UserStatus.ACTIVE },
+    omit: {
+      password: true
+    }
   })
   return unbannedUser
 }
