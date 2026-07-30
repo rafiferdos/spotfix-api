@@ -12,6 +12,11 @@ const router = Router()
 /* --------------------------------------------------------------- */
 router.post('/categories', auth(UserRole.ADMIN), categoryController.create)
 router.get('/categories', auth(UserRole.ADMIN), categoryController.getAll)
+router.delete(
+  '/categories/:id',
+  auth(UserRole.ADMIN),
+  categoryController.delete
+)
 
 /* --------------------------------------------------------------- */
 /*                        User Routes                             */
