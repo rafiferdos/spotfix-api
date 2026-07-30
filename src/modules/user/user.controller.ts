@@ -26,7 +26,18 @@ const banUser = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
+const unbanUser = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params
+  const user = await userService.unban(id as string)
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: 'User unbanned successfully',
+    data: user
+  })
+})
+
 export const userController = {
   getAll: getAllUsers,
-  ban: banUser
+  ban: banUser,
+  unban: unbanUser
 }

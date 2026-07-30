@@ -24,7 +24,15 @@ const banUserInDB = async (userId: string) => {
   return bannedUser
 }
 
+const unbanUserInDB = async (userId: string) => {
+  return prisma.user.update({
+    where: { id: userId },
+    data: { status: UserStatus.ACTIVE }
+  })
+}
+
 export const userService = {
   getAll: getAllUsersFromDB,
-  ban: banUserInDB
+  ban: banUserInDB,
+  unban: unbanUserInDB
 }

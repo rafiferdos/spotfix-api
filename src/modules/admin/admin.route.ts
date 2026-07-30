@@ -17,7 +17,8 @@ router.get('/categories', auth(UserRole.ADMIN), categoryController.getAll)
 /*                        User Routes                             */
 /* --------------------------------------------------------------- */
 router.get('/users', auth(UserRole.ADMIN), userController.getAll)
-router.patch('/users/:id', auth(UserRole.ADMIN), userController.ban)
+router.patch('/users/:id/ban', auth(UserRole.ADMIN), userController.ban)
+router.patch('/users/:id/unban', auth(UserRole.ADMIN), userController.unban)
 
 /* --------------------------------------------------------------- */
 /*                        Booking Routes                           */
