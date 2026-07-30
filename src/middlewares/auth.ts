@@ -56,7 +56,6 @@ export const auth = (...roles: UserRole[]) =>
       token,
       config.jwtSecret
     )
-    console.log('🚀 ~ auth ~ config.jwtSecret:', config.jwtSecret)
 
     if (!result.ok)
       throw new AppError(
