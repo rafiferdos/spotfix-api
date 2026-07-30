@@ -17,10 +17,9 @@ const loginUserIntoDB = async (payload: ILoginCredentials) => {
     where: { email }
   })
 
-  if (!user) throw new Error('User not found')
-
   const isPasswordMatched = await bcrypt.compare(password, user.password)
-  if (!isPasswordMatched) throw new Error('Invalid password')
+  if (!isPasswordMatched)
+    throw new AppError(status.UNAUTHORIZED, 'Invalid password')
 
   const jwtPayload = {
     id: user.id,
@@ -36,9 +35,12 @@ const loginUserIntoDB = async (payload: ILoginCredentials) => {
     refreshExpiresIn: config.jwtRefreshExpiresIn
   })
 
+  const { password: _pw, ...safeUser } = user
+
   return {
     accessToken,
-    refreshToken
+    refreshToken,
+    user: safeUser
   }
 }
 
