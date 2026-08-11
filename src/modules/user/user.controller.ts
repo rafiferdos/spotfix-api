@@ -36,8 +36,68 @@ const unbanUser = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
+import { AppError } from '@/utils/appError.js'
+// ...keep existing imports
+
+const getMe = catchAsync(async (req: Request, res: Response) => {
+  const user = await userService.getMe(req.user?.id as string)
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: 'Profile retrieved',
+    data: user
+  })
+})
+
+const updateProfile = catchAsync(async (req: Request, res: Response) => {
+  const userId = req.user?.id as string
+  const { name, phone, address } = req.body
+  const updated = await userService.updateProfile(userId, {
+    name,
+    phone,
+    address
+  })
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: 'Profile updated successfully',
+    data: updated
+  })
+})
+
+const updateProfilePhoto = catchAsync(async (req: Request, res: Response) => {
+  const userId = req.user?.id as string
+  if (!req.file)
+    throw new AppError(status.BAD_REQUEST, 'No image file provided')
+  const updated = await userService.updateProfilePhoto(userId, req.file.buffer)
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: 'Profile photo updated successfully',
+    data: updated
+  })
+})
+
+const changePassword = catchAsync(async (req: Request, res: Response) => {
+  const userId = req.user?.id as string
+  const { oldPassword, newPassword } = req.body
+  if (!oldPassword || !newPassword)
+    throw new AppError(status.BAD_REQUEST, 'Old and new password are required')
+  const result = await userService.changePassword(
+    userId,
+    oldPassword,
+    newPassword
+  )
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: 'Password changed successfully',
+    data: result
+  })
+})
+
 export const userController = {
   getAll: getAllUsers,
   ban: banUser,
-  unban: unbanUser
+  unban: unbanUser,
+  getMe,
+  updateProfile,
+  updateProfilePhoto,
+  changePassword
 }
