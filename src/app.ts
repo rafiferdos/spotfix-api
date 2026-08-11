@@ -14,6 +14,7 @@ import { reviewRoutes } from './modules/review/review.route.js'
 import { serviceRoutes } from './modules/service/service.route.js'
 import { technicianRoutes } from './modules/technician/technician.route.js'
 import { technicianPublicRoutes } from './modules/technician/technicians.route.js'
+import { userRoutes } from './modules/user/user.route.js'
 import globalErrorHandler from './utils/globalErrorHandler.js'
 
 const app: Application = express()
@@ -40,6 +41,10 @@ app.get('/', (_req: Request, res: Response) => {
 /* --------------------------------------------------------------- */
 app.use('/api/auth', AuthRoutes)
 
+/* --------------------------------------------------------------- */
+/*                        User Routes                             */
+/* --------------------------------------------------------------- */
+app.use('/api/users', userRoutes)
 /* --------------------------------------------------------------- */
 /*                        Admin Routes                             */
 /* --------------------------------------------------------------- */
