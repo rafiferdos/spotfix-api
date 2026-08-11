@@ -138,9 +138,66 @@ const getTechnicianProfileWithReviews = async (technicianId: string) => {
   return profile
 }
 
+const getEarningsSummaryFromDB = async (technicianId: string) => {
+  const payments = await prisma.payment.findMany({
+    where: { status: 'COMPLETED', booking: { technicianId } },
+    include: { booking: { include: { service: true } } }
+  })
+
+  const totalEarnings = payments.reduce((sum, p) => sum + p.amount, 0)
+
+  const completedJobs = await prisma.booking.count({
+    where: { technicianId, status: 'COMPLETED' }
+  })
+  const pendingPayoutJobs = await prisma.booking.count({
+    where: { technicianId, status: { in: ['PAID', 'IN_PROGRESS'] } }
+  })
+
+  const now = new Date()
+  const earningsByMonth = Array.from({ length: 6 }, (_, idx) => {
+    const i = 5 - idx
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1)
+    const monthLabel = d.toLocaleString('default', {
+      month: 'short',
+      year: '2-digit'
+    })
+    const monthEarnings = payments
+      .filter(
+        p =>
+          p.paidAt &&
+          p.paidAt.getFullYear() === d.getFullYear() &&
+          p.paidAt.getMonth() === d.getMonth()
+      )
+      .reduce((sum, p) => sum + p.amount, 0)
+    return { month: monthLabel, earnings: monthEarnings }
+  })
+
+  const serviceMap = new Map<string, { count: number; revenue: number }>()
+  for (const p of payments) {
+    const title = p.booking.service.title
+    const current = serviceMap.get(title) ?? { count: 0, revenue: 0 }
+    current.count += 1
+    current.revenue += p.amount
+    serviceMap.set(title, current)
+  }
+  const topServices = Array.from(serviceMap.entries())
+    .map(([title, v]) => ({ title, ...v }))
+    .sort((a, b) => b.revenue - a.revenue)
+    .slice(0, 5)
+
+  return {
+    totalEarnings,
+    completedJobs,
+    pendingPayoutJobs,
+    earningsByMonth,
+    topServices
+  }
+}
+
 export const technicianService = {
   upsert: upsertProfileIntoDB,
   updateAvailability: updateAvailabilityInDB,
   allTechnicians: getAllTechniciansFromDB,
-  getProfileWithReviews: getTechnicianProfileWithReviews
+  getProfileWithReviews: getTechnicianProfileWithReviews,
+  getEarningsSummary: getEarningsSummaryFromDB
 }
