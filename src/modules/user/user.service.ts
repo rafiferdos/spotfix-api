@@ -38,7 +38,7 @@ const unbanUserInDB = async (userId: string) => {
   return unbannedUser
 }
 
-import { uploadImageBuffer } from '@/lib/claudinary.js'
+import { uploadImageBuffer } from '@/lib/cloudinary.js'
 import { AppError } from '@/utils/appError.js'
 import status from 'http-status'
 import type { IUpdateProfilePayload } from './user.interface.js'
