@@ -3,6 +3,7 @@ import { BookingStatus, PaymentStatus } from '@/generated/prisma/enums.js'
 import { prisma } from '@/lib/prisma.js'
 import { stripe } from '@/lib/stripe.js'
 import { AppError } from '@/utils/appError.js'
+import { notify } from '@/utils/notify.js'
 import status from 'http-status'
 import type Stripe from 'stripe'
 
@@ -89,6 +90,27 @@ const handleWebhook = async (payload: Buffer, sig: string) => {
           data: { status: BookingStatus.PAID }
         })
       })
+      const bookingWithService = await prisma.booking.findUnique({
+        where: { id: bookingId },
+        include: { service: true }
+      })
+
+      if (bookingWithService) {
+        await notify({
+          userId: bookingWithService.customerId,
+          title: 'Payment successful',
+          message: `Your payment for "${bookingWithService.service.title}" was successful.`,
+          type: 'PAYMENT',
+          link: '/customer'
+        })
+        await notify({
+          userId: bookingWithService.technicianId,
+          title: 'Payment received',
+          message: `Payment received for "${bookingWithService.service.title}". You can start the job.`,
+          type: 'PAYMENT',
+          link: '/technician/bookings'
+        })
+      }
     }
   }
 }
