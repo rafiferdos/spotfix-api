@@ -173,11 +173,56 @@ const updateBookingStatus = async (
       throw new AppError(httpStatus.FORBIDDEN, 'Invalid status transition')
   }
 
-  // Update the DB safely
   const updatedBooking = await prisma.booking.update({
     where: { id: bookingId },
     data: { status: newStatus }
   })
+
+  const service = await prisma.service.findUnique({
+    where: { id: updatedBooking.serviceId },
+    select: { title: true }
+  })
+
+  if (newStatus === BookingStatus.ACCEPTED) {
+    await notify({
+      userId: updatedBooking.customerId,
+      title: 'Booking accepted',
+      message: `Your booking for "${service?.title}" was accepted. Proceed to payment.`,
+      type: 'BOOKING',
+      link: `/customer/bookings/${updatedBooking.id}/pay`
+    })
+  } else if (newStatus === BookingStatus.DECLINED) {
+    await notify({
+      userId: updatedBooking.customerId,
+      title: 'Booking declined',
+      message: `Your booking for "${service?.title}" was declined.`,
+      type: 'WARNING',
+      link: '/customer'
+    })
+  } else if (newStatus === BookingStatus.IN_PROGRESS) {
+    await notify({
+      userId: updatedBooking.customerId,
+      title: 'Job started',
+      message: `Work has started on "${service?.title}".`,
+      type: 'INFO',
+      link: '/customer'
+    })
+  } else if (newStatus === BookingStatus.COMPLETED) {
+    await notify({
+      userId: updatedBooking.customerId,
+      title: 'Job completed',
+      message: `Your job "${service?.title}" is complete. Leave a review!`,
+      type: 'SUCCESS',
+      link: '/customer'
+    })
+    await notify({
+      userId: updatedBooking.technicianId,
+      title: 'Job marked completed',
+      message: `You marked "${service?.title}" as completed.`,
+      type: 'SUCCESS',
+      link: '/technician/bookings'
+    })
+  }
 
   return updatedBooking
 }
