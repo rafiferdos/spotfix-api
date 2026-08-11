@@ -43,7 +43,7 @@ const updateAvailability = catchAsync(async (req: Request, res: Response) => {
 
 const getAllTechnicians = catchAsync(async (req: Request, res: Response) => {
   const { skill, location, rating } = req.query
-const technicians = await technicianService.allTechnicians({
+  const technicians = await technicianService.allTechnicians({
     skill: skill as string,
     location: location as string,
     rating: rating ? Number(rating) : undefined
@@ -71,9 +71,20 @@ const getTechnicianProfileWithReviews = catchAsync(
   }
 )
 
+const getEarnings = catchAsync(async (req: Request, res: Response) => {
+  const technicianId = req.user?.id as string
+  const data = await technicianService.getEarningsSummary(technicianId)
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: 'Earnings summary retrieved',
+    data
+  })
+})
+
 export const technicianController = {
   upsert: upsertProfile,
   updateAvailability,
   getAllTechnicians,
-  getProfileWithReviews: getTechnicianProfileWithReviews
+  getProfileWithReviews: getTechnicianProfileWithReviews,
+  getEarnings
 }
