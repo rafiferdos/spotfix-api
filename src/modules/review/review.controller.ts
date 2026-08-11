@@ -25,7 +25,6 @@ const createReview = catchAsync(async (req: Request, res: Response) => {
     )
 
   const newReview = await reviewService.create(userId, payload)
-
   sendResponse(res, {
     statusCode: status.CREATED,
     message: 'Review created successfully',
@@ -33,6 +32,63 @@ const createReview = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
+const getMyReviews = catchAsync(async (req: Request, res: Response) => {
+  const reviews = await reviewService.getMyReviews(req.user?.id as string)
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: 'Reviews retrieved successfully',
+    data: reviews
+  })
+})
+
+const updateReview = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params
+  const { rating, comment } = req.body
+  const updated = await reviewService.updateReview(
+    req.user?.id as string,
+    id as string,
+    { rating, comment }
+  )
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: 'Review updated successfully',
+    data: updated
+  })
+})
+
+const getTechnicianReviews = catchAsync(async (req: Request, res: Response) => {
+  const data = await reviewService.getTechnicianReviews(req.user?.id as string)
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: 'Reviews retrieved successfully',
+    data
+  })
+})
+
+const adminGetAllReviews = catchAsync(async (_req: Request, res: Response) => {
+  const reviews = await reviewService.adminGetAllReviews()
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: 'All reviews retrieved successfully',
+    data: reviews
+  })
+})
+
+const adminDeleteReview = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params
+  const deleted = await reviewService.adminDeleteReview(id as string)
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: 'Review deleted successfully',
+    data: deleted
+  })
+})
+
 export const reviewController = {
-  create: createReview
+  create: createReview,
+  getMyReviews,
+  updateReview,
+  getTechnicianReviews,
+  adminGetAllReviews,
+  adminDeleteReview
 }
