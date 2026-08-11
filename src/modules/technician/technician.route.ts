@@ -23,5 +23,10 @@ router.patch(
   auth(UserRole.TECHNICIAN),
   bookingController.updateStatus
 )
+router.get(
+  '/earnings',
+  auth(UserRole.TECHNICIAN),
+  technicianController.getEarnings
+)
 
 export const technicianRoutes = router
