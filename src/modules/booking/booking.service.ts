@@ -77,10 +77,20 @@ const cancelBookingInDB = async (customerId: string, bookingId: string) => {
       'This booking can no longer be cancelled'
     )
 
-  return prisma.booking.update({
+  const cancelled = await prisma.booking.update({
     where: { id: bookingId },
     data: { status: BookingStatus.CANCELLED }
   })
+
+  await notify({
+    userId: cancelled.technicianId,
+    title: 'Booking cancelled',
+    message: 'A customer cancelled their booking.',
+    type: 'WARNING',
+    link: '/technician/bookings'
+  })
+
+  return cancelled
 }
 
 const getAllBookingsByTechnician = async (technicianId: string) => {
