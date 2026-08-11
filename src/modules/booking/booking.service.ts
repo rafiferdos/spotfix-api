@@ -1,6 +1,7 @@
 import { BookingStatus } from '@/generated/prisma/enums.js'
 import { prisma } from '@/lib/prisma.js'
 import { AppError } from '@/utils/appError.js'
+import { notify } from '@/utils/notify.js'
 import httpStatus from 'http-status'
 import type { IBookingPayload } from './booking.interface.js'
 
@@ -40,6 +41,19 @@ const createBookingInDB = async (
       serviceId: payload.serviceId,
       scheduleDate: new Date(payload.scheduleDate)
     }
+  })
+
+  const service = await prisma.service.findUnique({
+    where: { id: payload.serviceId },
+    select: { title: true }
+  })
+
+  await notify({
+    userId: payload.technicianId,
+    title: 'New booking request',
+    message: `You have a new booking request for "${service?.title ?? 'a service'}".`,
+    type: 'BOOKING',
+    link: '/technician/bookings'
   })
 
   return newBooking
