@@ -24,3 +24,11 @@ enum PaymentStatus {
   COMPLETED
   FAILED
 }
+
+enum NotificationType {
+  INFO
+  SUCCESS
+  WARNING
+  BOOKING
+  PAYMENT
+}

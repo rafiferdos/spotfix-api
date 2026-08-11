@@ -1,16 +1,18 @@
 model User {
-  id        String     @id @default(uuid())
-  name      String
-  email     String     @unique
-  password  String
-  phone     String?
-  role      UserRole   @default(CUSTOMER)
-  status    UserStatus @default(ACTIVE)
-  address   String?
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  id           String     @id @default(uuid())
+  name         String
+  email        String     @unique
+  profileImage String?
+  password     String
+  phone        String?
+  role         UserRole   @default(CUSTOMER)
+  status       UserStatus @default(ACTIVE)
+  address      String?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
 
   services          Service[]
+  notifications     Notification[]
   customer          Booking[]          @relation("CustomerBookings")
   technician        Booking[]          @relation("TechnicianBookings")
   technicianProfile TechnicianProfile?
