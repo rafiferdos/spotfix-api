@@ -8,6 +8,7 @@ import { adminRoutes } from './modules/admin/admin.route.js'
 import { AuthRoutes } from './modules/auth/auth.route.js'
 import { bookingRoutes } from './modules/booking/booking.route.js'
 import { categoryRoutes } from './modules/category/category.route.js'
+import { notificationRoutes } from './modules/notification/notification.route.js'
 import { paymentRoutes } from './modules/payment/payment.route.js'
 import { reviewRoutes } from './modules/review/review.route.js'
 import { serviceRoutes } from './modules/service/service.route.js'
@@ -74,6 +75,11 @@ app.use('/api/reviews', reviewRoutes)
 /*                          Payment Routes                         */
 /* --------------------------------------------------------------- */
 app.use('/api/payments', paymentRoutes)
+
+/* --------------------------------------------------------------- */
+/*                        Notification Routes                      */
+/* --------------------------------------------------------------- */
+app.use('/api/notifications', notificationRoutes)
 
 /* --------------------------------------------------------------- */
 /*                         Error Handling                          */
