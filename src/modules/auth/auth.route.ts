@@ -13,5 +13,6 @@ router.get(
   auth(UserRole.ADMIN, UserRole.CUSTOMER, UserRole.TECHNICIAN),
   AuthControllers.getMe
 )
+router.post('/google', AuthControllers.googleLogin)
 
 export const AuthRoutes = router
