@@ -89,6 +89,12 @@ const changePasswordInDB = async (
   const bcrypt = await import('bcryptjs')
   const config = (await import('@/config/index.js')).default
   const user = await prisma.user.findUniqueOrThrow({ where: { id: userId } })
+  if (!user.password) {
+    throw new AppError(
+      status.BAD_REQUEST,
+      'This account was created with Google. Please continue with Google to log in.'
+    )
+  }
   const isMatch = await bcrypt.compare(oldPassword, user.password)
   if (!isMatch)
     throw new AppError(status.UNAUTHORIZED, 'Old password is incorrect')
