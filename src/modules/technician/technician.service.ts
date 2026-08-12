@@ -110,6 +110,7 @@ const getTechnicianProfileWithReviews = async (technicianId: string) => {
           name: true,
           email: true,
           phone: true,
+          profileImage: true,
           technician: {
             select: {
               id: true,
