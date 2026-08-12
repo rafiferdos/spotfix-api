@@ -1,19 +1,26 @@
 import { UserStatus } from '@/generated/prisma/enums.js'
 import { prisma } from '@/lib/prisma.js'
 
-const getAllUsersFromDB = async () => {
-  const users = await prisma.user.findMany({
-    omit: {
-      password: true
-    },
-    include: {
-      services: true,
-      technician: true,
-      customer: true,
-      technicianProfile: true
-    }
-  })
-  return users
+const getAllUsersFromDB = async (pagination: {
+  skip: number
+  limit: number
+}) => {
+  const [users, total] = await Promise.all([
+    prisma.user.findMany({
+      skip: pagination.skip,
+      take: pagination.limit,
+      orderBy: { createdAt: 'desc' },
+      omit: { password: true },
+      include: {
+        services: true,
+        technician: true,
+        customer: true,
+        technicianProfile: true
+      }
+    }),
+    prisma.user.count()
+  ])
+  return { users, total }
 }
 
 const banUserInDB = async (userId: string) => {
