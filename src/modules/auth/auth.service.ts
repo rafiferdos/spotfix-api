@@ -17,6 +17,13 @@ const loginUserIntoDB = async (payload: ILoginCredentials) => {
     where: { email }
   })
 
+  if (!user.password) {
+    throw new AppError(
+      status.BAD_REQUEST,
+      'This account was created with Google. Please continue with Google to log in.'
+    )
+  }
+
   const isPasswordMatched = await bcrypt.compare(password, user.password)
   if (!isPasswordMatched)
     throw new AppError(status.UNAUTHORIZED, 'Invalid password')
