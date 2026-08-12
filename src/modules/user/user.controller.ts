@@ -1,16 +1,20 @@
+import { AppError } from '@/utils/appError.js'
 import catchAsync from '@/utils/catchAsync.js'
+import { buildMeta, getPaginationParams } from '@/utils/paginate.js'
 import sendResponse from '@/utils/sendResponse.js'
 import type { Request, Response } from 'express'
 import status from 'http-status'
 import { userService } from './user.service.js'
 
-const getAllUsers = catchAsync(async (_req: Request, res: Response) => {
-  const users = await userService.getAll()
+const getAllUsers = catchAsync(async (req: Request, res: Response) => {
+  const { page, limit, skip } = getPaginationParams(req.query as any)
+  const { users, total } = await userService.getAll({ skip, limit })
 
   sendResponse(res, {
     statusCode: status.OK,
     message: 'Users retrieved successfully',
-    data: users
+    data: users,
+    meta: buildMeta(page, limit, total)
   })
 })
 
@@ -35,9 +39,6 @@ const unbanUser = catchAsync(async (req: Request, res: Response) => {
     data: user
   })
 })
-
-import { AppError } from '@/utils/appError.js'
-// ...keep existing imports
 
 const getMe = catchAsync(async (req: Request, res: Response) => {
   const user = await userService.getMe(req.user?.id as string)
