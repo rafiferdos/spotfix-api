@@ -235,8 +235,16 @@ const viewMyBookingsFromDB = async (customerId: string) => {
   })
 }
 
-const getAllBookings = async () => {
-  return await prisma.booking.findMany()
+const getAllBookings = async (pagination: { skip: number; limit: number }) => {
+  const [bookings, total] = await Promise.all([
+    prisma.booking.findMany({
+      skip: pagination.skip,
+      take: pagination.limit,
+      orderBy: { createdAt: 'desc' }
+    }),
+    prisma.booking.count()
+  ])
+  return { bookings, total }
 }
 
 const getSingleBookingByIdFromDB = async (bookingId: string) => {
