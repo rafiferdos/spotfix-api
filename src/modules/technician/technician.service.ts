@@ -41,11 +41,10 @@ const updateAvailabilityInDB = async (
   return updatedProfile
 }
 
-const getAllTechniciansFromDB = async (filters: {
-  skill?: string
-  location?: string
-  rating?: number
-}) => {
+const getAllTechniciansFromDB = async (
+  filters: { skill?: string; location?: string; rating?: number },
+  pagination: { skip: number; limit: number }
+) => {
   const whereConditions: Prisma.TechnicianProfileWhereInput = {}
 
   if (filters.skill) {
@@ -76,23 +75,26 @@ const getAllTechniciansFromDB = async (filters: {
     whereConditions.user = userConditions
   }
 
-  return await prisma.technicianProfile.findMany({
-    where: whereConditions,
-    select: {
-      id: true,
-      userId: true,
-      skills: true,
-      experience: true,
-      pricing: true,
-      user: {
-        select: {
-          name: true,
-          address: true,
-          email: true
+  const [technicians, total] = await Promise.all([
+    prisma.technicianProfile.findMany({
+      where: whereConditions,
+      skip: pagination.skip,
+      take: pagination.limit,
+      select: {
+        id: true,
+        userId: true,
+        skills: true,
+        experience: true,
+        pricing: true,
+        user: {
+          select: { name: true, address: true, email: true, profileImage: true }
         }
       }
-    }
-  })
+    }),
+    prisma.technicianProfile.count({ where: whereConditions })
+  ])
+
+  return { technicians, total }
 }
 const getTechnicianProfileWithReviews = async (technicianId: string) => {
   const profile = await prisma.technicianProfile.findUniqueOrThrow({
