@@ -1,5 +1,6 @@
 import { AppError } from '@/utils/appError.js'
 import catchAsync from '@/utils/catchAsync.js'
+import { buildMeta, getPaginationParams } from '@/utils/paginate.js'
 import sendResponse from '@/utils/sendResponse.js'
 import type { Request, Response } from 'express'
 import status from 'http-status'
@@ -43,15 +44,22 @@ const updateAvailability = catchAsync(async (req: Request, res: Response) => {
 
 const getAllTechnicians = catchAsync(async (req: Request, res: Response) => {
   const { skill, location, rating } = req.query
-  const technicians = await technicianService.allTechnicians({
-    skill: skill as string,
-    location: location as string,
-    rating: rating ? Number(rating) : undefined
-  })
+  const { page, limit, skip } = getPaginationParams(req.query as any)
+
+  const { technicians, total } = await technicianService.allTechnicians(
+    {
+      skill: skill as string,
+      location: location as string,
+      rating: rating ? Number(rating) : undefined
+    },
+    { skip, limit }
+  )
+
   sendResponse(res, {
     statusCode: status.OK,
     message: 'Technicians retrieved successfully',
-    data: technicians
+    data: technicians,
+    meta: buildMeta(page, limit, total)
   })
 })
 
