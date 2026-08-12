@@ -1,5 +1,6 @@
 import { AppError } from '@/utils/appError.js'
 import catchAsync from '@/utils/catchAsync.js'
+import { buildMeta, getPaginationParams } from '@/utils/paginate.js'
 import sendResponse from '@/utils/sendResponse.js'
 import type { Request, Response } from 'express'
 import status from 'http-status'
@@ -92,13 +93,15 @@ const viewMyBookings = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
-const getAllBookings = catchAsync(async (_req: Request, res: Response) => {
-  const bookings = await bookingService.getAll()
+const getAllBookings = catchAsync(async (req: Request, res: Response) => {
+  const { page, limit, skip } = getPaginationParams(req.query as any)
+  const { bookings, total } = await bookingService.getAll({ skip, limit })
 
   sendResponse(res, {
     statusCode: status.OK,
     message: 'Bookings retrieved successfully',
-    data: bookings
+    data: bookings,
+    meta: buildMeta(page, limit, total)
   })
 })
 
