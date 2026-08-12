@@ -1,4 +1,5 @@
 import catchAsync from '@/utils/catchAsync.js'
+import { buildMeta, getPaginationParams } from '@/utils/paginate.js'
 import sendResponse from '@/utils/sendResponse.js'
 import type { Request, Response } from 'express'
 import status from 'http-status'
@@ -22,18 +23,23 @@ const createService = catchAsync(async (req: Request, res: Response) => {
 
 const getAllServices = catchAsync(async (req: Request, res: Response) => {
   const { categoryId, location, rating, search } = req.query
+  const { page, limit, skip } = getPaginationParams(req.query as any)
 
-  const services = await serviceService.getAllFiltered({
-    categoryId: categoryId as string,
-    location: location as string,
-    rating: rating ? Number(rating) : undefined,
-    search: search as string
-  })
+  const { services, total } = await serviceService.getAllFiltered(
+    {
+      categoryId: categoryId as string,
+      location: location as string,
+      rating: rating ? Number(rating) : undefined,
+      search: search as string
+    },
+    { skip, limit }
+  )
 
   sendResponse(res, {
     statusCode: status.OK,
     message: 'Services retrieved successfully',
-    data: services
+    data: services,
+    meta: buildMeta(page, limit, total)
   })
 })
 
