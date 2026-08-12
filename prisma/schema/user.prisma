@@ -2,12 +2,12 @@ model User {
   id           String     @id @default(uuid())
   name         String
   email        String     @unique
-  profileImage String?
-  password     String
+  password     String?
   phone        String?
   role         UserRole   @default(CUSTOMER)
   status       UserStatus @default(ACTIVE)
   address      String?
+  profileImage String?
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
 
