@@ -156,9 +156,12 @@ const googleLoginIntoDB = async (credential: string) => {
       crypto.randomBytes(16).toString('hex'),
       Number(config.bcryptSaltRounds)
     )
+    const fallbackName =
+      payload.name?.trim() || payload.email.split('@')[0] || 'User'
+
     user = await prisma.user.create({
       data: {
-        name: payload.name ?? payload.email.split('@')[0],
+        name: fallbackName,
         email: payload.email,
         password: randomPassword,
         role: 'CUSTOMER',
