@@ -30,12 +30,15 @@ const createServiceIntoDB = async (
   return newService
 }
 
-const getAllServicesFilteredFromDB = async (filters: {
-  categoryId?: string
-  location?: string
-  rating?: number
-  search?: string
-}) => {
+const getAllServicesFilteredFromDB = async (
+  filters: {
+    categoryId?: string
+    location?: string
+    rating?: number
+    search?: string
+  },
+  pagination: { skip: number; limit: number }
+) => {
   const whereConditions: Prisma.ServiceWhereInput = {}
 
   if (filters.search) {
@@ -67,13 +70,23 @@ const getAllServicesFilteredFromDB = async (filters: {
     }
   }
 
-  return await prisma.service.findMany({
-    where: whereConditions,
-    include: {
-      category: { select: { name: true } },
-      technician: { select: { name: true, address: true } }
-    }
-  })
+  const [services, total] = await Promise.all([
+    prisma.service.findMany({
+      where: whereConditions,
+      skip: pagination.skip,
+      take: pagination.limit,
+      orderBy: { createdAt: 'desc' },
+      include: {
+        category: { select: { name: true } },
+        technician: {
+          select: { name: true, address: true, profileImage: true }
+        }
+      }
+    }),
+    prisma.service.count({ where: whereConditions })
+  ])
+
+  return { services, total }
 }
 
 const deleteServiceFromDB = async (serviceId: string, technicianId: string) => {
