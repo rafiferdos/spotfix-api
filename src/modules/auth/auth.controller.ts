@@ -1,4 +1,5 @@
 import config from '@/config/index.js'
+import { AppError } from '@/utils/appError.js'
 import catchAsync from '@/utils/catchAsync.js'
 import sendResponse from '@/utils/sendResponse.js'
 import type { Request, Response } from 'express'
@@ -76,9 +77,37 @@ const getMe = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
+const googleLogin = catchAsync(async (req: Request, res: Response) => {
+  const { credential } = req.body
+  if (!credential)
+    throw new AppError(status.BAD_REQUEST, 'Google credential is required')
+
+  const result = await AuthServices.googleLogin(credential)
+
+  res.cookie('refreshToken', result.refreshToken, {
+    httpOnly: true,
+    secure: config.isProduction,
+    sameSite: config.isProduction ? 'none' : 'lax',
+    maxAge: 7 * 24 * 60 * 60 * 1000
+  })
+  res.cookie('accessToken', result.accessToken, {
+    httpOnly: true,
+    secure: config.isProduction,
+    sameSite: config.isProduction ? 'none' : 'lax',
+    maxAge: 15 * 60 * 1000
+  })
+
+  sendResponse(res, {
+    statusCode: status.OK,
+    message: 'Logged in with Google successfully',
+    data: result
+  })
+})
+
 export const AuthControllers = {
   login: loginUser,
   refreshToken,
   register: registerUser,
+  googleLogin,
   getMe
 }

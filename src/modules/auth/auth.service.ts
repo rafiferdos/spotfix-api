@@ -1,8 +1,10 @@
 import config from '@/config/index.js'
+import { verifyGoogleToken } from '@/lib/googleAuth.js'
 import { prisma } from '@/lib/prisma.js'
 import { AppError } from '@/utils/appError.js'
 import { JwtUtils } from '@/utils/jwt.js'
 import bcrypt from 'bcryptjs'
+import crypto from 'crypto'
 import status from 'http-status'
 import type { JwtPayload } from 'jsonwebtoken'
 import type {
@@ -142,9 +144,56 @@ const getMeFromDB = async (userId: string) => {
   return user
 }
 
+const googleLoginIntoDB = async (credential: string) => {
+  const payload = await verifyGoogleToken(credential)
+  if (!payload?.email)
+    throw new AppError(status.UNAUTHORIZED, 'Invalid Google credential')
+
+  let user = await prisma.user.findUnique({ where: { email: payload.email } })
+
+  if (!user) {
+    const randomPassword = await bcrypt.hash(
+      crypto.randomBytes(16).toString('hex'),
+      Number(config.bcryptSaltRounds)
+    )
+    user = await prisma.user.create({
+      data: {
+        name: payload.name ?? payload.email.split('@')[0],
+        email: payload.email,
+        password: randomPassword,
+        role: 'CUSTOMER',
+        profileImage: payload.picture ?? null
+      }
+    })
+  }
+
+  if (user.status === 'BANNED')
+    throw new AppError(
+      status.FORBIDDEN,
+      'Your account has been banned. Please contact support.'
+    )
+
+  const jwtPayload = {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    role: user.role
+  }
+  const { accessToken, refreshToken } = JwtUtils.createAuthTokens(jwtPayload, {
+    accessSecret: config.jwtSecret,
+    accessExpiresIn: config.jwtExpiresIn,
+    refreshSecret: config.jwtRefreshSecret,
+    refreshExpiresIn: config.jwtRefreshExpiresIn
+  })
+
+  const { password: _pw, ...safeUser } = user
+  return { accessToken, refreshToken, user: safeUser }
+}
+
 export const AuthServices = {
   login: loginUserIntoDB,
   refreshToken,
   register: registerUserIntoDB,
-  getMe: getMeFromDB
+  getMe: getMeFromDB,
+  googleLogin: googleLoginIntoDB
 }
